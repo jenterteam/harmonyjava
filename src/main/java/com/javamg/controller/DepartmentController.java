@@ -2,6 +2,7 @@ package com.javamg.controller;
 
 import com.javamg.entity.stock.StockEntity;
 import com.javamg.service.stock.StockService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("department")
 @CrossOrigin(origins = "http://localhost:3000")
+@Slf4j
 public class DepartmentController {
 
     @Autowired
@@ -26,16 +28,16 @@ public class DepartmentController {
 
     @RequestMapping(value = "read", method = RequestMethod.GET)
     public List getAllDepartment() {
-        List list = new ArrayList();
-        StockEntity entity = new StockEntity();
-        entity.setDescription("Example Description");
-        entity.setStockAddress("Example Address");
-        entity.setStockCount(7);
-        entity.setStockName("Example Stock Name");
-        stockService.add(entity);
-        list.add("String 1");
-        list.add("String 2");
-        list.add("String 3");
+        try {
+            StockEntity entity = new StockEntity();
+            entity.setDescription("Example Description");
+            entity.setStockAddress("Example Address");
+            entity.setStockCount(7);
+            entity.setStockName("Example Stock Name");
+            stockService.add(entity);
+        } catch (Exception e) {
+            log.error("Stock cannot save. Exception : {}", e);
+        }
         return stockService.getAllArticles();
     }
 
